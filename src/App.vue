@@ -98,9 +98,9 @@ export default {
 }
 
 .md-card-header {
+  background-color: #00004c;
   text-align: center;
   color: #fff;
-  background-color: #00004c;
 }
 
 .md-card-title {
@@ -113,10 +113,10 @@ export default {
 }
 
 .md-field {
+  border-bottom: 1px dotted #808080;
   min-width: 40%;
   max-width: 50%;
   font-size: 22px;
-  border-bottom: 1px dotted #808080;
 }
 
 ul {
@@ -126,16 +126,16 @@ ul {
 }
 
 .todo-item {
+  border-bottom: 0.5px solid #808080;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 0.5px solid #808080;
 }
 
 .todo-item-label {
-  color: #fff;
   margin-left: 1%;
+  color: #fff;
 }
 
 .is-complete {
