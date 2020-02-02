@@ -1,6 +1,8 @@
 # ToDo
 A simple todo-list, built for the purpose of practising [Vue.js](https://vuejs.org/) framework. The user can add and delete todos, edit and mark the todos as completed.
 
+*Demo:* [ToDo](https://lucianmurmurache.github.io/ToDo/)
+
 ## Project setup
 ```
 npm install
