@@ -60,23 +60,35 @@ export default {
   data() {
     return {
       todos: [],
-      currentTodo: "",
-      editedTodo: ""
+      currentTodo: '',
+      editedTodo: ''
     };
+  },
+  mounted() {
+    if (localStorage.getItem('todos')) {
+      try {
+        this.todos = JSON.parse(localStorage.getItem('todos'));
+      } catch (e) {
+        localStorage.removeItem('todos');
+      }
+    }
   },
   methods: {
     addTodo() {
+      const parsed = JSON.stringify(this.todos);
+      localStorage.setItem('todos', parsed);
       this.todos.push({
         id: this.todos.length,
         label: this.currentTodo,
         completed: false,
         editing: false
       });
-      this.currentTodo = ""; //reset input field
+      this.currentTodo = ''; //reset input field
     },
     removeTodo(todo) {
       var index = this.todos.indexOf(todo);
       this.todos.splice(index, 1);
+      localStorage.removeItem('todos');
     },
     editTodo(todo) {
       todo.editing = true;
@@ -86,6 +98,9 @@ export default {
     },
     toggleCompleted() {
       this.todos.completed = !this.todos.completed;
+    },
+    persist() {
+      localStorage.todo = this.todos;
     }
   }
 };
