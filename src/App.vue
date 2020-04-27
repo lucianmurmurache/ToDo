@@ -2,11 +2,19 @@
   <div class="container">
     <md-card>
       <md-card-header>
-        <div class="md-card-title">ToDo List</div>
+        <div class="md-card-title">
+          To
+          <img src="./assets/logo.png" />
+          Do
+        </div>
       </md-card-header>
       <md-card-content class="md-card-content">
         <md-field class="md-field">
           <md-input v-model="currentTodo" @keydown.enter="addTodo()" placeholder="Add a todo.."></md-input>
+          <md-button class="fa fa-plus" @click="addTodo()">
+            <md-icon>add</md-icon>
+            <md-tooltip md-direction="top" md-delay="1000">Add</md-tooltip>
+          </md-button>
         </md-field>
         <div class="todo-list">
           <ul class="todos">
@@ -18,25 +26,28 @@
                   @change="toggleCompleted"
                   v-model="todo.completed"
                 />
-                <span
-                  v-if="todo.editing === false"
-                  class="todo-item-label"
-                  :class="{'is-complete' : todo.completed}"
-                  @dblclick="editTodo(todo)"
-                >{{ todo.label }}</span>
-                <div v-if="todo.editing">
-                  <md-field>
-                    <md-input
-                      type="text"
-                      v-model="todo.label"
-                      @keyup.enter="stopEdit(todo)"
-                      @keyup.esc="stopEdit(todo)"
-                      @focusout="stopEdit(todo)"
-                      placeholder="Edit.."
-                    />
-                  </md-field>
-                </div>
               </span>
+
+              <span
+                v-if="todo.editing === false"
+                class="todo-item-label"
+                :class="{'is-complete' : todo.completed}"
+                @dblclick="editTodo(todo)"
+              >{{ todo.label }}</span>
+
+              <div v-if="todo.editing">
+                <md-field>
+                  <md-input
+                    type="text"
+                    v-model="todo.label"
+                    @keyup.enter="stopEdit(todo)"
+                    @keyup.esc="stopEdit(todo)"
+                    @focusout="stopEdit(todo)"
+                    placeholder="Edit.."
+                  />
+                </md-field>
+              </div>
+
               <span>
                 <md-button class="md-fab md-mini md-primary" @click="editTodo(todo)">
                   <md-icon>edit</md-icon>
@@ -52,6 +63,24 @@
         </div>
       </md-card-content>
     </md-card>
+    <div class="media">
+      <a
+        href="https://github.com/lucianmurmurache/ToDo"
+        aria-label="Social media logo - github"
+        alt="Github logo"
+        target="_blank"
+      >
+        <img src="./assets/github64.png" />
+      </a>
+      <a
+        href="https://de.linkedin.com/in/lucian-murmurache-88155473"
+        aria-label="Social media logo - linkedin"
+        alt="LinkedIn logo"
+        target="_blank"
+      >
+        <img src="./assets/linkedin64.png" />
+      </a>
+    </div>
   </div>
 </template>
 
@@ -60,35 +89,35 @@ export default {
   data() {
     return {
       todos: [],
-      currentTodo: '',
-      editedTodo: ''
+      currentTodo: "",
+      editedTodo: ""
     };
   },
   mounted() {
-    if (localStorage.getItem('todos')) {
+    if (localStorage.getItem("todos")) {
       try {
-        this.todos = JSON.parse(localStorage.getItem('todos'));
+        this.todos = JSON.parse(localStorage.getItem("todos"));
       } catch (e) {
-        localStorage.removeItem('todos');
+        localStorage.removeItem("todos");
       }
     }
   },
   methods: {
     addTodo() {
       const parsed = JSON.stringify(this.todos);
-      localStorage.setItem('todos', parsed);
+      localStorage.setItem("todos", parsed);
       this.todos.push({
         id: this.todos.length,
         label: this.currentTodo,
         completed: false,
         editing: false
       });
-      this.currentTodo = ''; //reset input field
+      this.currentTodo = ""; //reset input field
     },
     removeTodo(todo) {
       var index = this.todos.indexOf(todo);
       this.todos.splice(index, 1);
-      localStorage.removeItem('todos');
+      localStorage.removeItem("todos");
     },
     editTodo(todo) {
       todo.editing = true;
@@ -108,30 +137,36 @@ export default {
 
 <style>
 .md-card {
-  max-width: 80%;
+  overflow: auto;
+  max-width: 70%;
   margin: auto;
 }
 
 .md-card-header {
   background-color: #00004c;
   text-align: center;
-  color: #fff;
+  color: #808080;
 }
 
 .md-card-title {
-  font-size: 32px;
+  font-size: 3rem;
+}
+
+.md-card-title img {
+  max-width: 64px;
+  max-height: 64px;
+  margin: 0 -15px;
 }
 
 .md-card-content {
   margin-left: 1%;
-  font-size: 22px;
 }
 
 .md-field {
-  border-bottom: 1px dotted #808080;
+  border-bottom: 1px solid #808080;
+  font-size: 1rem;
   min-width: 40%;
-  max-width: 50%;
-  font-size: 22px;
+  max-width: 400px;
 }
 
 ul {
@@ -140,21 +175,82 @@ ul {
   padding: 0;
 }
 
+.todo-list {
+  display: flex;
+  flex-direction: row;
+}
+
 .todo-item {
-  border-bottom: 0.5px solid #808080;
+  border-bottom: 1px solid #808080;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  font-size: 1.2rem;
   display: flex;
 }
 
 .todo-item-label {
-  margin-left: 1%;
+  margin: 0 1rem;
   color: #fff;
 }
 
 .is-complete {
   text-decoration: line-through;
   color: #808080;
+}
+
+.media {
+  top: 45%;
+  position: fixed;
+  z-index: 1;
+}
+
+.media a {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: block;
+  padding: 10px;
+}
+
+@media screen and (max-width: 550px) {
+  .md-card {
+    max-width: 95%;
+  }
+  .media {
+    display: none;
+  }
+
+  .md-field {
+    min-width: 60%;
+    max-width: 350px;
+    font-size: 2rem;
+  }
+
+  .md-card-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .md-card {
+    max-width: 100%;
+  }
+  .media {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .md-card {
+    max-width: 95%;
+  }
+  .media {
+    display: none;
+  }
+
+  .todo-item-label {
+    margin: 0 0.1rem;
+    color: #fff;
+  }
 }
 </style>
