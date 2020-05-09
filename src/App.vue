@@ -90,7 +90,8 @@ export default {
     return {
       todos: [],
       currentTodo: "",
-      editedTodo: ""
+      editedTodo: "",
+      hasError: false
     };
   },
   mounted() {
@@ -106,6 +107,13 @@ export default {
     addTodo() {
       const parsed = JSON.stringify(this.todos);
       localStorage.setItem("todos", parsed);
+
+      if (!this.currentTodo) {
+        // stop submit if the current todo is empty
+        this.hasError = true;
+        return;
+      }
+      this.hasError = false;
       this.todos.push({
         id: this.todos.length,
         label: this.currentTodo,
